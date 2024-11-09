@@ -1,3 +1,5 @@
+import Array "mo:base/Array";
+
 actor PatientRecord {
 
     type PatientInfo = {
