@@ -1,36 +1,22 @@
-import Array "mo:base/Array";
+actor PatientLogin {
 
-actor PatientRecord {
-
-    type PatientInfo = {
+    type Patient = {
+        insuranceNumber: Text;
+        uniqueKey: Text;
         name: Text;
-        age: Nat;
-        gender: Text;
-        address: Text;
-        diseases: [Text];
-        conditions: [Text];
-        allergies: [Text];
     };
 
-    var patients : [PatientInfo] = [];
+    var patients : [Patient] = [
+        {insuranceNumber = "123456789", uniqueKey = "clave123", name = "Juan Perez"},
+        {insuranceNumber = "987654321", uniqueKey = "clave987", name = "Maria Lopez"}
+    ];
 
-    public func addPatient(
-        name: Text, age: Nat, gender: Text, address: Text,
-        diseases: [Text], conditions: [Text], allergies: [Text]
-    ) : async () {
-        let newPatient : PatientInfo = {
-            name = name;
-            age = age;
-            gender = gender;
-            address = address;
-            diseases = diseases;
-            conditions = conditions;
-            allergies = allergies;
+    public func login(insuranceNumber: Text, password: Text) : async ?Text {
+        for (patient in patients.vals()) {
+            if (patient.insuranceNumber == insuranceNumber and patient.uniqueKey == password) {
+                return ?("Login exitoso. Bienvenido, " # patient.name # "!");
+            }
         };
-        patients := Array.append(patients, [newPatient]);
-    };
-
-    public func getPatients() : async [PatientInfo] {
-        return patients;
+        return null;
     };
 };
